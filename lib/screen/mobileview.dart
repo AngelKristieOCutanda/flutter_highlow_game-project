@@ -11,7 +11,7 @@ class MobileView extends StatefulWidget {
 }
 
 class _HIghLowGameState extends State<MobileView> {
-  AudioCache audioCache = AudioCache();
+  AudioPlayer player = AudioPlayer();
   String generateRandomString(int len) {
     var r = Random();
     const _chars = 'CDHS';
@@ -36,6 +36,20 @@ class _HIghLowGameState extends State<MobileView> {
   int cValue5 = 0;
   var cLetter5 = 'C';
 
+  void playAudio(String musics){
+    AudioCache audioCache;
+    audioCache = AudioCache(fixedPlayer: player);
+    audioCache.loop(musics);
+  }
+  void playEffects(String musics){
+    AudioCache audioCacheeee;
+    audioCacheeee = AudioCache(fixedPlayer: player);
+    audioCacheeee.play(musics);
+  }
+
+  void stopAudio(){
+    player.stop();
+  }
   void avoidFirstErorr(){
     if(attempts == 0){
       setState(() {
@@ -114,6 +128,7 @@ class _HIghLowGameState extends State<MobileView> {
       context: context,
       builder: (BuildContext context) {
         return AlertDialog(
+          backgroundColor: Colors.redAccent,
           title: Text('Gameover!!'),
           content: Text("Do you want to play again?"),
           actions: <Widget>[
@@ -137,11 +152,15 @@ class _HIghLowGameState extends State<MobileView> {
       score++;
       Future.delayed(Duration(milliseconds: 800), () {
         showAlert(context);
+        playEffects('correct.mp3');
+        stopAudio();
       });
     }
     else{
       Future.delayed(Duration(milliseconds: 800), () {
         showAlertGAmeover(context);
+        playEffects('wrong.mp3');
+        stopAudio();
       });
     }
   }
@@ -150,11 +169,16 @@ class _HIghLowGameState extends State<MobileView> {
       score++;
       Future.delayed(Duration(milliseconds: 800), () {
         showAlert(context);
+        playEffects('correct.mp3');
+        stopAudio();
       });
     }
     else{
       Future.delayed(Duration(milliseconds: 800), () {
         showAlertGAmeover(context);
+        playEffects('wrong.mp3');
+        stopAudio();
+
       });
     }
   }
@@ -162,7 +186,9 @@ class _HIghLowGameState extends State<MobileView> {
   @override
   Widget build(BuildContext context) {
     avoidFirstErorr();
+    playAudio("theme.mp3");
     return SafeArea(
+
       child: Stack(
           children: [
             Positioned.fill(

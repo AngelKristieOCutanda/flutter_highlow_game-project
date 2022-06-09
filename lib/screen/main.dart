@@ -10,14 +10,9 @@ void main() => runApp( MaterialApp(
 ));
 
 class MyApp extends StatelessWidget {
-
-  AudioCache audioCache = AudioCache();
-
-
   @override
   Widget build(BuildContext context) {
-    audioCache.play("assets/sounds/theme.mp3");
-    audioCache.loop("assets/sounds/theme.mp3");
+
 
     return MaterialApp(
       debugShowCheckedModeBanner: false,
